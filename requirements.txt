@@ -2,3 +2,4 @@ sqlalchemy==2.0.37
 pymysql==1.1.1
 uvicorn==0.34.0
 fastapi
+openai
