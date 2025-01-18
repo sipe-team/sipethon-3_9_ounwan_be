@@ -8,15 +8,18 @@ services:
       - .env
     restart: always
     ports:
-      - 3000:3000
+      - 8000:8000
     networks:
       - ounwan
     depends_on:
       - db
   db:
     image: mysql
-    env_file:
-      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     restart: always
     expose:
       - 3306
