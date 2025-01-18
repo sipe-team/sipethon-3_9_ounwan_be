@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 
 from database import Base, SessionLocal, engine
 from models import ForecastUser
-from openai import get_openai_response
+from openai_prompt import get_openai_response
 from result_request import ResultRequest
 
 # DB 테이블 생성 (없으면 자동 생성)
@@ -68,7 +68,7 @@ async def generate_results(request: ResultRequest):
         if existing_record:
             print('existing_record')
             return existing_record
-        # openai_response = await get_openai_response(request)
+        openai_response = await get_openai_response(request)
         mock_openai_response = {
             "health_score": 90,
             "health_desc": "You will have a great health",
@@ -86,18 +86,18 @@ async def generate_results(request: ResultRequest):
         # DB에 저장
         user = ForecastUser(
             id=hash_id,
-            health_score=mock_openai_response["health_score"],
-            love_score=mock_openai_response["love_score"],
-            money_score=mock_openai_response["money_score"],
-            job_score=mock_openai_response["job_score"],
-            health_desc=mock_openai_response["health_desc"],
-            love_desc=mock_openai_response["love_desc"],
-            money_desc=mock_openai_response["money_desc"],
-            job_desc=mock_openai_response["job_desc"],
-            health_cover=mock_openai_response["health_cover"],
-            love_cover=mock_openai_response["love_cover"],
-            money_cover=mock_openai_response["money_cover"],
-            job_cover=mock_openai_response["job_cover"]
+            health_score=openai_response["health_score"],
+            love_score=openai_response["love_score"],
+            money_score=openai_response["money_score"],
+            job_score=openai_response["job_score"],
+            health_desc=openai_response["health_desc"],
+            love_desc=openai_response["love_desc"],
+            money_desc=openai_response["money_desc"],
+            job_desc=openai_response["job_desc"],
+            health_cover=openai_response["health_cover"],
+            love_cover=openai_response["love_cover"],
+            money_cover=openai_response["money_cover"],
+            job_cover=openai_response["job_cover"]
         )
         db.add(user)
         db.commit()

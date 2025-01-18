@@ -1,26 +1,29 @@
 import json
 import os
 
-from dotenv import load_dotenv
-
 import openai
+from dotenv import load_dotenv
+from fastapi import HTTPException
+
+from result_request import ResultRequest
 
 # OpenAI API 키 로드
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
 
-async def get_openai_response(request):
+async def get_openai_response(request: ResultRequest):
     try:
         prompt = (
             f"If I tell you the date of birth, tell me the appropriate health luck score for 2025 (0-100), affection luck score (0-100), job luck score (0-100), "
             f"monetary luck score (0-100), total score (0-100), health luck summary, affection luck summary in JSON form. "
             f"Please provide health luck summary in Korean. "
             f"Don't give me anything but JSON to answer. I just want you to give me JSON.\n\n"
-            f"Date and time of birth: {request.birth_info}"
+            f"Date and time of birth (YYYYMMDD HH:MM): {request.birthday} {request.birthtime}\n"
         )
 
         completion = await openai.ChatCompletion.acreate(
-            model="gpt-4",  # 또는 "gpt-3.5-turbo"
+            model="gpt-3.5-turbo",  # 또는 "gpt-3.5-turbo"
             messages=[
                 {"role": "system", "content": "You are a fortune teller providing luck predictions in JSON format."},
                 {"role": "user", "content": prompt}
