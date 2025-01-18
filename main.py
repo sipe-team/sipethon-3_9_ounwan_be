@@ -5,9 +5,10 @@ from enum import Enum
 
 from fastapi import FastAPI, HTTPException
 
-from .database import Base, SessionLocal, engine
-from .models import ForecastUser
-from .result_request import ResultRequest
+from database import Base, SessionLocal, engine
+from models import ForecastUser
+from openai import get_openai_response
+from result_request import ResultRequest
 
 # DB 테이블 생성 (없으면 자동 생성)
 Base.metadata.create_all(bind=engine)
@@ -65,9 +66,9 @@ async def generate_results(request: ResultRequest):
     try:
         existing_record = db.query(ForecastUser).filter(ForecastUser.id == hash_id).first()
         if existing_record:
+            print('existing_record')
             return existing_record
-        # OpenAI API 호출
-        ################ 이곳에다가 OpenAI API 호출 코드를 넣어주세요 ################ㄴ
+        # openai_response = await get_openai_response(request)
         mock_openai_response = {
             "health_score": 90,
             "health_desc": "You will have a great health",
@@ -98,7 +99,9 @@ async def generate_results(request: ResultRequest):
             money_cover=mock_openai_response["money_cover"],
             job_cover=mock_openai_response["job_cover"]
         )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        return user
     finally:
         db.close()
-
-        
