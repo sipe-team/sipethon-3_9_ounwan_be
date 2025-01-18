@@ -47,10 +47,10 @@ async def get_openai_response(request: ResultRequest):
                 "money_desc": "자세한 금전운은 프리미엄 서비스에서 확인하실 수 있습니다.",
                 "job_score": response_json.get("job_luck_score", 0),
                 "job_desc": "자세한 직장운은 프리미엄 서비스에서 확인하실 수 있습니다.",
-                "health_cover": "Health cover",
-                "love_cover": "Love cover",
-                "money_cover": "Money cover",
-                "job_cover": "Job cover"
+                "health_one_line_comment": "Health cover",
+                "love_one_line_comment": "Love cover",
+                "money_one_line_comment": "Money cover",
+                "job_one_line_comment": "Job cover"
             }
         except json.JSONDecodeError:
             raise HTTPException(

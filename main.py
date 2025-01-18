@@ -78,10 +78,10 @@ async def generate_results(request: ResultRequest):
             "money_desc": "You will have a great money",
             "job_score": 60,
             "job_desc": "You will have a great job",
-            "health_cover": "Health cover",
-            "love_cover": "Love cover",
-            "money_cover": "Money cover",
-            "job_cover": "Job cover"
+            "health_one_line_comment": "Health cover",
+            "love_one_line_comment": "Love cover",
+            "money_one_line_comment": "Money cover",
+            "job_one_line_comment": "Job cover"
         }
         # DB에 저장
         user = ForecastUser(
@@ -94,10 +94,10 @@ async def generate_results(request: ResultRequest):
             love_desc=openai_response["love_desc"],
             money_desc=openai_response["money_desc"],
             job_desc=openai_response["job_desc"],
-            health_cover=openai_response["health_cover"],
-            love_cover=openai_response["love_cover"],
-            money_cover=openai_response["money_cover"],
-            job_cover=openai_response["job_cover"]
+            health_one_line_comment=openai_response["health_one_line_comment"],
+            love_one_line_comment=openai_response["love_one_line_comment"],
+            money_one_line_comment=openai_response["money_one_line_comment"],
+            job_one_line_comment=openai_response["job_one_line_comment"]
         )
         db.add(user)
         db.commit()
