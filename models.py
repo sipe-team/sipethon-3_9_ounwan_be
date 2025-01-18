@@ -7,6 +7,7 @@ class ForecastUser(Base):
     __tablename__ = "ForecastUser"
 
     id = Column(String(100), primary_key=True, index=True)
+    username = Column(String(100))
     health_score = Column(Integer)
     love_score = Column(Integer)
     money_score = Column(Integer)

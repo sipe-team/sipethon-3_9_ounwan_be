@@ -31,13 +31,6 @@ async def get_openai_response(request: ResultRequest):
         )
 
 
-
-
-
-        print(prompt)
-
-
-
         completion = await openai.ChatCompletion.acreate(
             model="gpt-3.5-turbo",  # 또는 "gpt-3.5-turbo"
             messages=[
@@ -54,7 +47,6 @@ async def get_openai_response(request: ResultRequest):
         try:
             response_text = completion.choices[0].message.content
             response_json = json.loads(response_text)
-            print(response_text)
             # 필요한 필드가 모두 있는지 확인하고 기본값 설정
             return {
                 "health_score": response_json.get("health_score", 0),

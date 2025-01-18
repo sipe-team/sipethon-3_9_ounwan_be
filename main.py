@@ -97,6 +97,7 @@ async def generate_results(request: ResultRequest):
         # DB에 저장
         user = ForecastUser(
             id=hash_id,
+            username = request.name,
             health_score=openai_response["health_score"],
             love_score=openai_response["love_score"],
             money_score=openai_response["money_score"],
@@ -113,6 +114,20 @@ async def generate_results(request: ResultRequest):
         db.add(user)
         db.commit()
         db.refresh(user)
+        return user
+    finally:
+        db.close()
+
+@app.post("/results/{user_id}")
+async def get_result_from_db(user_id: str):
+    db = SessionLocal()
+    try:
+        user = db.query(ForecastUser).filter(ForecastUser.id == user_id).first()
+        if user is None:
+            raise HTTPException(
+                status_code=404,
+                detail="User not found"
+            )
         return user
     finally:
         db.close()
