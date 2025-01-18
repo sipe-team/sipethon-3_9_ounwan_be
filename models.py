@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from .database import Base
+from database import Base
 
 
 class ForecastUser(Base):
@@ -15,7 +15,7 @@ class ForecastUser(Base):
     love_desc = Column(String(1000))
     money_desc = Column(String(1000))
     job_desc = Column(String(1000))
-    health_cover = Column(String(1000))
-    love_cover = Column(String(1000))
-    money_cover = Column(String(1000))
-    job_cover = Column(String(1000))
+    health_one_line_comment = Column(String(1000))
+    love_one_line_comment = Column(String(1000))
+    money_one_line_comment = Column(String(1000))
+    job_one_line_comment = Column(String(1000))
